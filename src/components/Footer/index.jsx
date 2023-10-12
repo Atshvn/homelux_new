@@ -1,13 +1,55 @@
 import { motion } from "framer-motion";
-import { GROUPID, callApi } from "../../services/Api";
-import { useState, useRef } from "react";
+import { GROUPID, IMAGES_DOMAIN, callApi } from "../../services/Api";
+import { useState, useRef, useEffect } from "react";
 import { message } from "antd";
 export default function Footer() {
   const [messageApi, contextHolder] = message.useMessage();
   // thông tin khách hàng đăng nhập
-  const infor = JSON.parse(
-    localStorage.getItem("Web_Infor_Setting_CAK_" + GROUPID)
-  );
+  const [infor, setInfor] = useState();
+
+  useEffect(() => {
+    Shop_spWeb_Setting_List();
+  }, []);
+  const Shop_spWeb_Setting_List = async () => {
+    const pr2 = {
+      Domain: "",
+      GroupId: GROUPID,
+    };
+    const params2 = {
+      Json: JSON.stringify(pr2),
+      func: "Shop_spWeb_Setting_List",
+    };
+    try {
+      const result2 = await callApi.Main(params2);
+      let Logo =
+        IMAGES_DOMAIN +
+        result2
+          .find((e) => e.KeySetting === "Logo")
+          .DataSetting.replace(",", "");
+
+      let Hotline = result2.find(
+        (e) => e.KeySetting === "Hotline"
+      )?.DataSetting;
+      let HotlineName = result2?.find(
+        (a) => a.KeySetting === "HotlineName"
+      )?.DataSetting;
+      let CompanyName = result2?.find(
+        (a) => a.KeySetting === "CompanyName"
+      )?.DataSetting;
+      let Address = result2?.find(
+        (a) => a.KeySetting === "Address"
+      )?.DataSetting;
+      let data = {
+        Logo,
+        Hotline,
+        HotlineName,
+        CompanyName,
+        Address,
+      };
+      setInfor(data);
+    } catch (err) {}
+  };
+
   const [Names, setNames] = useState("");
   const NamesRef = useRef();
   const [Phones, setPhones] = useState("");
@@ -170,10 +212,7 @@ export default function Footer() {
                       </div>
                     </div>
                     <span class="text-xl font-semibold text-gray-800 capitalize border-b-2 border-orange-600">
-                      {
-                        infor?.find((a) => a.KeySetting === "CompanyName")
-                          ?.DataSetting
-                      }
+                      {infor?.CompanyName}
                     </span>
                     <p class="flex items-start mt-4">
                       <svg
@@ -197,10 +236,7 @@ export default function Footer() {
                       </svg>
 
                       <span class=" pl-2 text-gray-900 w-full font-medium">
-                        {
-                          infor?.find((a) => a.KeySetting === "Address")
-                            ?.DataSetting
-                        }
+                        {infor?.Address}
                       </span>
                     </p>
                     <div class=" flex flex-row rounded-full bg-amber-500 mt-4 w-fit ">
@@ -224,16 +260,10 @@ export default function Footer() {
                       </div>
                       <div class="flex flex-col grow justify-center text-white pl-3 pr-6">
                         <div className="text-3xl font-bold">
-                          {
-                            infor?.find((a) => a.KeySetting === "Hotline")
-                              ?.DataSetting
-                          }
+                          {infor?.Hotline}
                         </div>
                         <div class="font-semibold text-xl italic">
-                          {
-                            infor?.find((a) => a.KeySetting === "HotlineName")
-                              ?.DataSetting
-                          }
+                          {infor?.HotlineName}
                         </div>
                       </div>
                     </div>

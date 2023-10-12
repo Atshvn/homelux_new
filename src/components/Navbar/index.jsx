@@ -79,7 +79,7 @@ export default function Navbar() {
               <img
                 className="w-[124px]  object-cover z-20 relative"
                 src={logo}
-                alt="shopify-icon"
+                alt="icon"
               />
             </div>
             <div className="bg-amber-500 p-3 px-5 rounded-full text-white text-lg md:text-3xl font-semibold">
