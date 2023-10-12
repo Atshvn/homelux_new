@@ -174,7 +174,7 @@ export function SecondaryCard({ primaryContainer }) {
 
   return (
     <div
-      className=" max-w-[380px] sm:max-w-[480px] sm:max-h-[680px]w-full md:max-w-none  p-5 
+      className=" max-w-[380px] sm:max-w-[480px] sm:max-h-[680px] w-full md:max-w-none  p-5 
    relative z-10 after:bg-orange-600 0 after:w-full after:h-[85%] after:absolute after:inset-0 after:z-0 sm:p-8 md:p-4 lg:p-10"
     >
       <motion.div
